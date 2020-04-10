@@ -1,0 +1,32 @@
+version: '3'
+services:
+  node_1:
+    build: .
+    network_mode: host
+    ports:
+      - "8333:8333"
+    command: bitcoind -regtest -port=8333 -rpcport=18443 -rpcuser=admin -rpcpassword=admin
+  node_2:
+    build: .
+    network_mode: host
+    ports:
+      - "8334:8334"
+    command: bitcoind -regtest -port=8334 -rpcport=18444 -rpcuser=admin -rpcpassword=admin -addnode=127.0.0.1:8333
+    depends_on: 
+    - node_1
+  node_3:
+    build: .
+    network_mode: host
+    ports:
+      - "8335:8335"
+    command: bitcoind -regtest -port=8335 -rpcport=18445 -rpcuser=admin -rpcpassword=admin -addnode=127.0.0.1:8333
+    depends_on: 
+    - node_1
+  node_4:
+    build: .
+    network_mode: host
+    ports:
+      - "8336:8336"
+    command: bitcoind -regtest -port=8336 -rpcport=18446 -rpcuser=admin -rpcpassword=admin -addnode=127.0.0.1:8333
+    depends_on: 
+    - node_1
